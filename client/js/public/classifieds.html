@@ -1,0 +1,94 @@
+
+<h3>Steve's List</h3>
+
+<main class="container">
+
+<div class="row" ng-repeat="post in $ctrl.classifieds | filter:searchText | orderBy:sortBy">
+  <div class="col-md-12">
+
+      <div>
+          <div class="media-left">
+              <img class="media-object" ng-src="{{post.item_image}}" width='150px'>
+          </div>
+          <div class="media-body">
+              <h4 class="media-heading">{{ post.title }}</h4>
+              <div>{{ post.description }}</div>
+              <p>${{ post.price }}</p>
+              <p> {{ post.created_at | date:'short'}} </p>
+              <a ng-click="$ctrl.edit()">Edit Ad</a> | <a ng-click="$ctrl.deleteAd(post)">Delete Ad</a>
+              <div class="row" ng-show="$ctrl.showAd">
+                  <div class="col-md-8">
+                      <form ng-submit="$ctrl.editAd(post)" name="$ctrl.newpost" novalidate>
+                          <div class="form-group" ng-class="{'has-error' : $ctrl.newpost.title.$invalid}">
+                              <label for="title">Title</label>
+                              <input name="title" ng-model="$ctrl.editP.title" ng-value="post.title" id="title" class="form-control" minlength="3" type="text">
+                          </div>
+                          <div class="form-group" ng-class="{'has-error' : $ctrl.newpost.description.$invalid}">
+                              <label for="description">Description</label>
+                              <textarea name="description" ng-model="$ctrl.editP.description" ng-value="post.description" id="body" class="form-control" minlength="3" type="text"></textarea>
+                          </div>
+                          <div class="form-group" ng-class="{'has-error' : $ctrl.newpost.price.$invalid}">
+                              <label for="price">Price</label>
+                              <input name="price" ng-model="$ctrl.editP.price" ng-value="post.price" id="price" class="form-control" type="text">
+                          </div>
+                          <div class="form-group" ng-class="{'has-error' : $ctrl.newpost.item_image.$invalid}">
+                              <label for="item_image">Image URL</label>
+                              <input name="item_image" ng-model="$ctrl.editP.item_image" ng-value="post.item_image" id="item_image" minlength="10" class="form-control" type="url">
+                          </div>
+                          <div class="form-group">
+                              <button type="submit" class="btn btn-primary">Edit Ad</button>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div>
+  <ul class="nav nav-pills">
+      <li role="presentation" class="active">
+          <input type="search" ng-model="searchText" class="form-control input-sm search-form" placeholder="Search Name">
+      </li>
+      <div class="form-inline">
+          <label for="sort" id="label">Order By</label>
+          <select class="form-control" id="sort" ng-model="sortBy">
+          <option value="-created_at">Latest</option>
+          <option value="created_at">Oldest</option>
+          <option value="-price">Low to High Price</option>
+          <option value="price">High to Low Price</option>
+      </select>
+      </div>
+  </ul>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <form ng-submit="$ctrl.makeAd()" name="$ctrl.newpost" novalidate>
+            <div class="form-group" ng-class="{'has-error' : $ctrl.newpost.title.$invalid}">
+                <label for="title">Title</label>
+                <input name="title" ng-model="$ctrl.post.title" id="title" class="form-control" minlength="3" type="text">
+            </div>
+            <div class="form-group" ng-class="{'has-error' : $ctrl.newpost.description.$invalid}">
+                <label for="description">Description</label>
+                <textarea name="description" ng-model="$ctrl.post.description" id="body" class="form-control" minlength="3" type="text"></textarea>
+            </div>
+            <div class="form-group" ng-class="{'has-error' : $ctrl.newpost.price.$invalid}">
+                <label for="price">Price</label>
+                <input name="price" ng-model="$ctrl.post.price" id="price" class="form-control" minlength="1" type="text">
+            </div>
+            <div class="form-group" ng-class="{'has-error' : $ctrl.newpost.item_image.$invalid}">
+                <label for="item_image">Image URL</label>
+                <input name="item_image" ng-model="$ctrl.post.item_image" id="item_image" minlength="10" class="form-control" type="url">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" ng-if="$ctrl.newpost.$valid">Create Ad</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+</main>
